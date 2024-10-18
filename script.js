@@ -5,6 +5,7 @@ const icon = document.querySelector(".icon");
 const weather = document.querySelector(".weather");
 const temperature = document.querySelector(".temperature");
 const description = document.querySelector(".description");
+const datetime = document.querySelector(".datetime");
 
 searchButton.addEventListener("click",()=>{
     let city = input.value;
@@ -36,6 +37,20 @@ let getWeather = (city) => {
 
         const weatherDescription = data.weather[0].description;
         description.innerHTML = weatherDescription.toUpperCase();
+
+        const timezoneOffset = data.timezone;
+            const localTime = new Date(Date.now() + timezoneOffset * 1000);
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                timeZone: 'UTC'
+            };
+            const formattedDateTime = localTime.toLocaleString('en-US', options);
+            datetime.innerHTML = formattedDateTime;
       })
       .catch(error => {
         console.error('There was a problem with the fetch operation:', error);
